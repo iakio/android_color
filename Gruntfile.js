@@ -24,11 +24,18 @@ module.exports = function (grunt) {
                     'dist/index.html': [ 'tmpl/index.jade' ]
                 }
             }
+        },
+        'gh-pages': {
+            options: {
+                base: 'dist'
+            },
+            src: '**/*'
         }
     });
     
     grunt.loadNpmTasks('grunt-contrib-jade');
     grunt.loadNpmTasks('grunt-contrib-watch');
+    grunt.loadNpmTasks('grunt-gh-pages');
     grunt.registerTask('default', ['watch']);
     grunt.registerTask('all', ['colors', 'jade']);
     grunt.registerTask('colors', function () {
