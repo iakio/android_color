@@ -1,0 +1,16 @@
+doctype 5
+html
+  head
+    meta(charset='utf-8')
+    title Android Colors
+  body
+    h1 Android Colors
+    | generate from res/values/colors.xml
+    table
+      each color in colors
+        tr
+          td= color.name 
+          td(style='background: url(tile.png)')
+            div(style='background: rgba(' + color.rgba.join(',') + ')')
+              = color.hex
+          td= 'rgba(' + color.rgba.join(', ') + ')'

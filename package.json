@@ -1,0 +1,19 @@
+{
+  "name": "android_color",
+  "version": "0.0.0",
+  "description": "android_color =============",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/iakio/android_color.git"
+  },
+  "author": "ISHIDA Akio",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/iakio/android_color/issues"
+  },
+  "devDependencies": {
+    "grunt": "~0.4.2",
+    "grunt-contrib-jade": "~0.8.0",
+    "grunt-contrib-watch": "~0.5.3",
+  }
+}
