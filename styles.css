@@ -1,0 +1,17 @@
+body {
+    font-family: Verdana, Helvetica, sans-serif;
+}
+
+.content {
+    margin: 0 auto;
+    width: 960px;
+}
+
+.color_tile {
+    background: url("tile.png");
+}
+
+.color_tile > div {
+    margin: 2px;
+    padding: 6px;
+}
