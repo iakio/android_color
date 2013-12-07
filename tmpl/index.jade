@@ -2,15 +2,19 @@ doctype 5
 html
   head
     meta(charset='utf-8')
+    link(rel="stylesheet", href="styles.css")
     title Android Colors
   body
-    h1 Android Colors
-    | generate from res/values/colors.xml
-    table
-      each color in colors
-        tr
-          td= color.name 
-          td(style='background: url(tile.png)')
-            div(style='background: rgba(' + color.rgba.join(',') + ')')
-              = color.hex
-          td= 'rgba(' + color.rgba.join(', ') + ')'
+    div.content
+      h1 Android Colors
+      | Generate from 
+      a(href="https://raw.github.com/android/platform_frameworks_base/master/core/res/res/values/colors.xml")
+        | res/values/colors.xml
+      table
+        each color in colors
+          tr
+            td= color.name 
+            td.color_tile
+              div(style='background: rgba(' + color.rgba.join(',') + ')')
+                = color.hex
+            td= 'rgba(' + color.rgba.join(', ') + ')'
