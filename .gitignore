@@ -1,0 +1,5 @@
+node_modules/
+.grunt/
+build/colors.json
+dist/index.html
+colors.xml
