@@ -10,14 +10,17 @@ var builder = function (done, out) {
         parser.parseString(data, function (err, result) {
             ['drawable', 'color'].forEach(function (el) {
                 result.resources[el].forEach(function (d) {
-                    var hexcolor = /^#([0-9a-f]{2})([0-9a-f]{2})([0-9a-f]{2})([0-9a-f]{2})/.exec(d._),
-                        rgba;
+                    var hexcolor = /^#([0-9a-f]{2})?([0-9a-f]{2})([0-9a-f]{2})([0-9a-f]{2})/.exec(d._),
+                        rgba,
+                        alpha;
                     if (hexcolor) {
+                        alpha = hexcolor[1] ?
+                                Math.round(parseInt(hexcolor[1], 16) * 100 / 255) / 100 : 1;
                         rgba = [
                             parseInt(hexcolor[2], 16),
                             parseInt(hexcolor[3], 16),
                             parseInt(hexcolor[4], 16),
-                            parseInt(hexcolor[1], 16) / 255
+                            alpha
                         ];
                         colors.push({
                             name: el + '.' + d.$.name,
@@ -27,7 +30,7 @@ var builder = function (done, out) {
                     }
                 });
             });
-            fs.writeFile(out, JSON.stringify(colors), function () {
+            fs.writeFile(out, JSON.stringify(colors.sort(function (a, b) { return a.name.localeCompare(b.name); })), function () {
                 done();
             });
         });
