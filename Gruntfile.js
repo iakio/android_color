@@ -3,9 +3,9 @@ module.exports = function (grunt) {
     'use strict';
     grunt.initConfig({
         watch: {
-            colors: {
-                files: [ 'builder.js' ],
-                tasks: [ 'colors' ]
+            xml2json: {
+                files: [ 'colors.xml', 'builder.js' ],
+                tasks: [ 'xml2json' ]
             },
             jade: {
                 files: [ 'tmpl/index.jade', 'build/colors.json' ],
@@ -30,6 +30,13 @@ module.exports = function (grunt) {
                 base: 'dist'
             },
             src: '**/*'
+        },
+        xml2json: {
+            colors: {
+                files: {
+                    'build/colors.json': [ 'colors.xml' ]
+                }
+            }
         }
     });
     
@@ -37,10 +44,30 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-gh-pages');
     grunt.registerTask('default', ['watch']);
-    grunt.registerTask('all', ['colors', 'jade']);
-    grunt.registerTask('colors', function () {
-        var done = this.async(),
-            builder = require('./builder');
-        builder(done, 'build/colors.json');
+    grunt.registerTask('all', ['xml2json', 'jade']);
+    grunt.registerMultiTask('xml2json', function () {
+        var builder = require('./builder'),
+            done = this.async();
+        this.files.forEach(function (f) {
+            var result = [],
+                countDown = f.src.length;
+            f.src.forEach(function (src) {
+                builder(grunt.file.read(src), function (err, json) {
+                    if (err) {
+                        grunt.fatal(err);
+                    }
+                    result = result.concat(json);
+                    countDown -= 1;
+                    if (countDown === 0) {
+                        grunt.file.write(f.dest, JSON.stringify(
+                            result.sort(function (a, b) {
+                                return a.name.localeCompare(b.name);
+                            })
+                        ));
+                        done();
+                    }
+                });
+            });
+        });
     });
 };
